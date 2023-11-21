@@ -6,7 +6,8 @@
 body {
     background-image: url(./images/12.JPG);
     overflow: hidden;
-    background-size: cover;
+    background-size: contain;
+    background-size:100%;
 }
 
 #perspective {
