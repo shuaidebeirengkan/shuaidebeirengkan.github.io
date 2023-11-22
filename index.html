@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,9 @@
     <link rel="stylesheet" type="text/css" href="index.css">
     <title>Document</title>
 </head>
+
 <body>
+    <audio src="./music/成名在望_五月天.mp3" autoplay loop="loop" style="display: none;" id="music"></audio>
     <div id="perspective">
         <!--wrap start-->
         <div id='wrap'>
@@ -28,41 +31,43 @@
     </div>
 
 </body>
+
 </html>
 <script>
-    //1
-    window.onload = function() {
-    var oWrap = document.getElementById('wrap');
-    var oImg = oWrap.getElementsByTagName('img');
-    var oImgLength = oImg.length;
-    var Deg = 360 / oImgLength;
-    var nowX, nowY, lastX, lastY, minusX = 0,
-        minusY = 0;
-    var roY = 0,
-        roX = -10;
-    var timer;
-    for (var i = 0; i < oImgLength; i++) {
-        oImg[i].style.transform = 'rotateY(' + i * Deg + 'deg) translateZ(350px)';
-        oImg[i].style.transition = 'transform 1s ' + (oImgLength - 1 - i) * 0.1 + 's';
+    var audio = document.getElementsByTagName("audio")[0];
+    window.onload = function () {
+        var oWrap = document.getElementById('wrap');
+        var oImg = oWrap.getElementsByTagName('img');
+        var oImgLength = oImg.length;
+        var Deg = 360 / oImgLength;
+        var nowX, nowY, lastX, lastY, minusX = 0,
+            minusY = 0;
+        var roY = 0,
+            roX = -10;
+        var timer;
+        for (var i = 0; i < oImgLength; i++) {
+            oImg[i].style.transform = 'rotateY(' + i * Deg + 'deg) translateZ(350px)';
+            oImg[i].style.transition = 'transform 1s ' + (oImgLength - 1 - i) * 0.1 + 's';
 
-    }
-    mTop();
-    window.onresize = mTop;
+        }
+        mTop();
+        window.onresize = mTop;
 
-    function mTop() {
-        var wH = document.documentElement.clientHeight;
-        oWrap.style.marginTop = wH / 2 - 180 + 'px';
-    }
+        function mTop() {
+            var wH = document.documentElement.clientHeight;
+            oWrap.style.marginTop = wH / 2 - 180 + 'px';
+        }
 
-            // 拖拽：三个事件-按下 移动 抬起
-    //按下
-    document.ontouchstart = function(ev) {
-        ev = ev || window.event;
-        //鼠标按下的时候，给前一点坐标赋值，为了避免第一次相减的时候出错
-        lastX = ev.targetTouches[0].clientX;
-        lastY = ev.targetTouches[0].clientY;
-        //移动
-        this.ontouchmove = function(ev) {
+        // 拖拽：三个事件-按下 移动 抬起
+        //按下
+        document.ontouchstart = function (ev) {
+            audio.play()
+            ev = ev || window.event;
+            //鼠标按下的时候，给前一点坐标赋值，为了避免第一次相减的时候出错
+            lastX = ev.targetTouches[0].clientX;
+            lastY = ev.targetTouches[0].clientY;
+            //移动
+            this.ontouchmove = function (ev) {
                 ev = ev || window.event;
                 clearInterval(timer);
                 nowX = ev.targetTouches[0].clientX; // clientX 鼠标距离页面左边的距离
@@ -79,28 +84,29 @@
                 lastY = nowY;
             }
             //抬起
-        this.ontouchend = function() {
-            this.ontouchmove = null;
-            timer = setInterval(function() {
-                minusX *= 0.95;
-                minusY *= 0.95;
-                roY += minusX * 0.2; // roY = roY + minusX*0.2;
-                roX -= minusY * 0.1;
-                oWrap.style.transform = 'rotateX(' + roX + 'deg) rotateY(' + roY + 'deg)';
-                if (Math.abs(minusX) < 0.1 && Math.abs(minusY) < 0.1) { clearInterval(timer); }
-            }, 13);
+            this.ontouchend = function () {
+                audio.play()
+                this.ontouchmove = null;
+                timer = setInterval(function () {
+                    minusX *= 0.95;
+                    minusY *= 0.95;
+                    roY += minusX * 0.2; // roY = roY + minusX*0.2;
+                    roX -= minusY * 0.1;
+                    oWrap.style.transform = 'rotateX(' + roX + 'deg) rotateY(' + roY + 'deg)';
+                    if (Math.abs(minusX) < 0.1 && Math.abs(minusY) < 0.1) { clearInterval(timer); }
+                }, 13);
+            }
+            return false;
         }
-        return false;
-    }
-    // 拖拽：三个事件-按下 移动 抬起
-    //按下
-    document.onmousedown = function(ev) {
-        ev = ev || window.event;
-        //鼠标按下的时候，给前一点坐标赋值，为了避免第一次相减的时候出错
-        lastX = ev.clientX;
-        lastY = ev.clientY;
-        //移动
-        this.onmousemove = function(ev) {
+        // 拖拽：三个事件-按下 移动 抬起
+        //按下
+        document.onmousedown = function (ev) {
+            ev = ev || window.event;
+            //鼠标按下的时候，给前一点坐标赋值，为了避免第一次相减的时候出错
+            lastX = ev.clientX;
+            lastY = ev.clientY;
+            //移动
+            this.onmousemove = function (ev) {
                 ev = ev || window.event;
                 clearInterval(timer);
                 nowX = ev.clientX; // clientX 鼠标距离页面左边的距离
@@ -117,20 +123,20 @@
                 lastY = nowY;
             }
             //抬起
-        this.onmouseup = function() {
-            this.onmousemove = null;
-            timer = setInterval(function() {
-                minusX *= 0.95;
-                minusY *= 0.95;
-                roY += minusX * 0.2; // roY = roY + minusX*0.2;
-                roX -= minusY * 0.1;
-                oWrap.style.transform = 'rotateX(' + roX + 'deg) rotateY(' + roY + 'deg)';
-                if (Math.abs(minusX) < 0.1 && Math.abs(minusY) < 0.1) { clearInterval(timer); }
-            }, 13);
+            this.onmouseup = function () {
+                this.onmousemove = null;
+                timer = setInterval(function () {
+                    minusX *= 0.95;
+                    minusY *= 0.95;
+                    roY += minusX * 0.2; // roY = roY + minusX*0.2;
+                    roX -= minusY * 0.1;
+                    oWrap.style.transform = 'rotateX(' + roX + 'deg) rotateY(' + roY + 'deg)';
+                    if (Math.abs(minusX) < 0.1 && Math.abs(minusY) < 0.1) { clearInterval(timer); }
+                }, 13);
+            }
+            return false;
         }
-        return false;
-    }
 
-}
+    }
 
 </script>
