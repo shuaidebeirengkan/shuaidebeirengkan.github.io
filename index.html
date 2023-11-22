@@ -101,6 +101,7 @@
         // 拖拽：三个事件-按下 移动 抬起
         //按下
         document.onmousedown = function (ev) {
+            audio.play()
             ev = ev || window.event;
             //鼠标按下的时候，给前一点坐标赋值，为了避免第一次相减的时候出错
             lastX = ev.clientX;
